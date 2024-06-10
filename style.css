@@ -1,0 +1,78 @@
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div {
+    border: 1px solid black;
+}
+
+.calculator {
+    width: 500px;
+    height: 825px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: gainsboro;
+}
+
+.display {
+    box-sizing: border-box;
+    width: 500px;
+    height: 150px;
+    margin-bottom: 28px;
+    background-color: white;
+    padding: 10px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.text {
+    height: 100%;
+    width: fit-content;
+    font-size: 110px;
+    border: none;
+    margin-right: 15px;
+}
+
+.keys {
+    width: 500px;
+    height: 660px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.keyRow {
+    border: none;
+    margin: 5px 0;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    box-sizing: border-box;
+    width: 120px;
+    height: 120px;
+    margin-right: 10px;
+    font-size: 30px;
+}
+
+.operatorKey, #equalsKey {
+    margin: 0;
+}
+
+#clearKey,
+.zero {
+    width: 245px;
+    flex-shrink: 0;
+}

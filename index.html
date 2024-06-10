@@ -4,8 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+    <div class="calculator">
+        <div class="display">
+            <span class="text">0</span>
+        </div>
+        <div class="keys">
+            <div class="keyRow">
+                <button type="button" id="clearKey">C</button>
+                <button type="button" id="deleteKey">Del</button>
+                <button type="button" class="operatorKey" id="division">÷</button>
+            </div>
+            <div class="keyRow">
+                <button type="button" class="numberKey" id="7">7</button>
+                <button type="button" class="numberKey" id="8">8</button>
+                <button type="button" class="numberKey" id="9">9</button> 
+                <button type="button" class="operatorKey" id="multiplication">X</button>
+            </div>
+            <div class="keyRow">
+                <button type="button" class="numberKey" id="4">4</button>
+                <button type="button" class="numberKey" id="5">5</button>
+                <button type="button" class="numberKey" id="6">6</button>    
+                <button type="button" class="operatorKey" id="subtraction">-</button>
+            </div>
+            <div class="keyRow">
+                <button type="button" class="numberKey" id="1">1</button>
+                <button type="button" class="numberKey" id="2">2</button>
+                <button type="button" class="numberKey" id="3">3</button>    
+                <button type="button" class="operatorKey" id="addition">+</button>
+            </div>
+            <div class="keyRow">
+                <button type="button" class="numberKey zero" id="0">0</button>
+                <button type="button" id="decimalKey">.</button>
+                <button type="button" id="equalsKey">=</button>
+            </div>
+        </div>
+    </div>
     
+    <script src="./script.js"></script>
 </body>
 </html>
