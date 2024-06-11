@@ -1,17 +1,20 @@
+const display = document.querySelector(".text");
+
 const calculation = {
-    firstNumber: 0,
-    secondNumber: 0,
-    operator: "+",
+    firstNumber: '0',
+    secondNumber: '0',
+    operator: "none",
+    currentNumber: "firstNumber",
+    preserveValue: false
 }
 
 // Assign functionality to all buttons
 document.querySelectorAll("button").forEach(button => {
     button.addEventListener("click", (e) => {
         let target = e.target;
-        console.log(target.id);
 
         if (target.classList.contains("numberKey")) {
-            handleNumberKey(Number.parseInt(target.id));
+            handleNumberKey(target.id);
         } else if (target.classList.contains("operatorKey")) {
             handleOperatorKey(target.id);
         } else {
@@ -21,53 +24,129 @@ document.querySelectorAll("button").forEach(button => {
 });
 
 function handleNumberKey(key) {
+    let currentValue = display.textContent;
+    if (calculation.preserveValue == false || display.textContent == "0") {
+        display.textContent = key;
+        calculation.preserveValue = true;
+    } else if (display.textContent.length < 8) {
+        display.textContent += key;
+    }
 
+    calculation[calculation.currentNumber] = display.textContent;
 }
 
 function handleOperatorKey(key) {
+    if (calculation.currentNumber == "firstNumber" && calculation.firstNumber != "0" && key != calculation.operator) {
+        calculation.operator = key;
+        calculation.currentNumber = "secondNumber";
+        calculation.preserveValue = false;
+    } else if (calculation.currentNumber == "secondNumber" && calculation.secondNumber != "0") {
+        display.textContent = operate();
+        calculation.firstNumber = display.textContent == "Error" ? "0" : display.textContent;
+        calculation.operator = key;
+        calculation.secondNumber = "0";
+        calculation.currentNumber = "secondNumber";
+        calculation.preserveValue = false;
+    } else {
+        calculation.operator = key;
+    }
 
+    removeSelectedOperator();
+    document.querySelector(`#${key}`).classList.add("selectedOperator");
 }
 
 function handleSpecialKey(key) {
-
-}
-
-
-function operate(firstNumber, secondNumber, operator) {
-    switch (operator) {
-        case "+":
-            add(firstNumber, secondNumber);
+    switch (key) {
+        case "clearKey":
+            display.textContent = "0";
+            calculation.firstNumber = "0";
+            calculation.operator = "none";
+            calculation.secondNumber = "0";
+            calculation.currentNumber = "firstNumber";
+            calculation.preserveValue = false;
+            removeSelectedOperator();
             break;
 
-        case "-":
-            subtract(firstNumber, secondNumber);
+        case "equalsKey":
+            display.textContent = operate();
+            calculation.firstNumber = display.textContent == "Error" ? "0" : display.textContent;
+            calculation.operator = "none";
+            calculation.secondNumber = "0";
+            calculation.currentNumber = "firstNumber";
+            calculation.preserveValue = false;
+            removeSelectedOperator();
             break;
 
-        case "*":
-            multiply(firstNumber, secondNumber);
+        case "deleteKey":
+            let value = display.textContent;
+            if (value.length > 1) {
+                value = value.split("");
+                value.pop();
+                display.textContent = value.join("");
+            }
+
+            calculation[calculation.currentNumber] = display.textContent;
             break;
 
-        case "/":
-            divide(firstNumber, secondNumber);
-    
+        case "decimalKey":
+            if (!display.textContent.includes(".") && display.textContent.length < 7) {
+                display.textContent += ".";
+            }
+            break;
+
         default:
-            console.error("Operator not recognized");
             break;
     }
 }
 
-function add(a, b) {
-    return a + b;
+function removeSelectedOperator() {
+    if (document.querySelector(".selectedOperator")) {
+        document.querySelector(".selectedOperator").classList.remove("selectedOperator");
+    }
 }
 
-function subtract(a, b) {
-    return a - b;
-}
+function operate() {
+    if (calculation.operator == "division" && calculation.secondNumber == "0") {
+        return "Error";
+    }
 
-function multiply(a, b) {
-    return a * b;
-}
+    let value;
+    switch (calculation.operator) {
+        case "addition":
+            value = +calculation.firstNumber + +calculation.secondNumber;
+            break;
 
-function divide(a, b) {
-    return a / b;
+        case "subtraction":
+            value = calculation.firstNumber - calculation.secondNumber;
+            break;
+
+        case "multiplication":
+            value = calculation.firstNumber * calculation.secondNumber;
+            break;
+
+        case "division":
+            value = calculation.firstNumber / calculation.secondNumber;
+            break;
+
+        case "none":
+            value = display.textContent;
+            break;
+
+        default:
+            console.error("Operator not recognized");
+            break;
+    }
+
+    let textValue = value.toString();
+    if (textValue.includes(".")) {
+        let digits = textValue.split("");
+        while (digits.length > 8) {
+            digits.pop();
+        }
+        textValue = digits.join("");
+    } else if (textValue.length > 8) {
+        textValue = "Error"
+    }
+
+    return textValue;
 }
