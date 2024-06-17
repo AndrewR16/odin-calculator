@@ -23,6 +23,60 @@ document.querySelectorAll("button").forEach(button => {
     });
 });
 
+// Allow keyboard input
+window.addEventListener("keydown", (e) => {
+    // Number support
+    const number = Number.parseInt(e.key);
+    if (number >= 0 && number <= 9) {
+        handleNumberKey(number);
+    }
+
+    // Operator and special key support
+    switch (e.key) {
+        case "+":
+            handleOperatorKey("addition");
+            break;
+
+        case "-":
+            handleOperatorKey("subtraction");
+            break;
+
+        case "*":
+            handleOperatorKey("multiplication");
+            break;
+
+        case "/":
+            handleOperatorKey("division");
+            break;
+
+        case "Delete":
+            handleSpecialKey("deleteKey");
+            break;
+
+        case "Backspace":
+            handleSpecialKey("deleteKey");
+            break;
+
+        case "c":
+            handleSpecialKey("clearKey");
+            break;
+
+        case "Enter":
+            handleSpecialKey("equalsKey");
+            break;
+
+        case "=":
+            handleSpecialKey("equalsKey");
+            break;
+
+
+        case ".":
+            handleSpecialKey("decimalKey");
+            break;
+    }
+
+});
+
 function handleNumberKey(key) {
     let currentValue = display.textContent;
     if (calculation.preserveValue == false || display.textContent == "0") {
