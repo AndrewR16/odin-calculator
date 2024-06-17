@@ -49,6 +49,8 @@ function handleOperatorKey(key) {
         calculation.preserveValue = false;
     } else {
         calculation.operator = key;
+        calculation.currentNumber = "secondNumber";
+        calculation.preserveValue = false;
     }
 
     removeSelectedOperator();
@@ -83,6 +85,8 @@ function handleSpecialKey(key) {
                 value = value.split("");
                 value.pop();
                 display.textContent = value.join("");
+            } else {
+                display.textContent = "0";
             }
 
             calculation[calculation.currentNumber] = display.textContent;
@@ -94,7 +98,19 @@ function handleSpecialKey(key) {
             }
             break;
 
+        case "signKey":
+            let digits = display.textContent.split("");
+            if (!digits.includes("-") && digits.length < 8) {
+                digits.unshift("-");
+            } else if (digits.includes("-")) {
+                digits.shift();
+            }
+            display.textContent = digits.join("");
+            calculation[calculation.currentNumber] = display.textContent;
+            break;
+
         default:
+            console.log("Key not recognized");
             break;
     }
 }
@@ -137,6 +153,10 @@ function operate() {
             break;
     }
 
+    return restricValueLength(value);
+}
+
+function restricValueLength(value) {
     let textValue = value.toString();
     if (textValue.includes(".")) {
         let digits = textValue.split("");
@@ -145,7 +165,7 @@ function operate() {
         }
         textValue = digits.join("");
     } else if (textValue.length > 8) {
-        textValue = "Error"
+        textValue = "Error";
     }
 
     return textValue;

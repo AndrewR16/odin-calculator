@@ -79,7 +79,6 @@ button {
     margin: 0;
 }
 
-#clearKey,
 .zero {
     width: 245px;
     flex-shrink: 0;
@@ -87,16 +86,19 @@ button {
 
 /* Light grey */
 #clearKey,
+#signKey,
 #deleteKey {
     background-color: rgb(239, 239, 239);
 }
 
 #clearKey:hover,
+#signKey:hover,
 #deleteKey:hover {
     background-color: rgb(245 245, 245);
 }
 
 #clearKey:active,
+#signKey:active,
 #deleteKey:active {
     background-color: rgb(229, 229, 229);
 }
